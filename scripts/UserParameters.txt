@@ -1,0 +1,16 @@
+##### Обнаружение дисков.
+UserParameter=HDD.discovery,for /F "tokens=*" %a in ('C:\zabbix\disks\disks.cmd') do @echo %a
+
+##### S.M.A.R.T.
+# RAW_VALUE
+UserParameter=HDD.raw[*], for /F "tokens=10" %a in ('C:\"Program Files"\smartmontools\bin\smartctl.exe -A $1 -d $2 ^| find "$3"') do @echo %a
+# VALUE
+UserParameter=HDD.value.[*], for /F "tokens=4" %a in ('C:\"Program Files"\smartmontools\bin\smartctl.exe -A $1 -d $2^| find "$3"') do @echo %a
+# WORST
+UserParameter=HDD.worst.[*], for /F "tokens=5" %a in ('C:\"Program Files"\smartmontools\bin\smartctl.exe -A $1 -d $2 ^| find "$3"') do @echo %a
+# THRESOLD
+UserParameter=HDD.thresh.[*], for /F "tokens=6" %a in ('C:\"Program Files"\smartmontools\bin\smartctl.exe -A $1 -d $2 ^| find "$3"') do @echo %a
+# WHEN_FAILED
+UserParameter=HDD.when.failed.[*], for /F "tokens=9" %a in ('C:\"Program Files"\smartmontools\bin\smartctl.exe -A $1 -d $2 ^| find "$3"') do @echo %a
+# HEALTH Status
+UserParameter=HDD.health.[*], for /F "tokens=6" %a in ('C:\"Program Files"\smartmontools\bin\smartctl.exe -H $1 -d $2 ^| find "test"') do @echo %a
