@@ -14,3 +14,9 @@ UserParameter=HDD.thresh.[*], for /F "tokens=6" %a in ('C:\"Program Files"\smart
 UserParameter=HDD.when.failed.[*], for /F "tokens=9" %a in ('C:\"Program Files"\smartmontools\bin\smartctl.exe -A $1 -d $2 ^| find "$3"') do @echo %a
 # HEALTH Status
 UserParameter=HDD.health.[*], for /F "tokens=6" %a in ('C:\"Program Files"\smartmontools\bin\smartctl.exe -H $1 -d $2 ^| find "test"') do @echo %a
+
+# ATA ERROR LOG
+UserParameter=HDD.errorlog.[*], for /F "tokens=4" %a in ('C:\"Program Files"\smartmontools\bin\smartctl.exe -l error $1 -d $2 ^| find "ATA Error Count"') do @echo %a
+
+##### Температура проца
+UserParameter=CPU.HEAT,C:\zabbix\OHMC\CPU_HEAT.cmd
